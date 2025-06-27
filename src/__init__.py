@@ -1,0 +1,1 @@
+# Art Descriptions AI Package 
