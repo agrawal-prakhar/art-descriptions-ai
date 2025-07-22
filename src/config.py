@@ -45,8 +45,10 @@ class Config:
 
     PEOPLE PORTRAYED:
     - Refer explicitly to "person," "people," "man," "woman," "boy," "girl," or "child," rather than "figure"
-    - Describe skin color explicitly and consistently; do not describe race or use food-related words
+    - Describe skin color explicitly and consistently; do not describe race or use food-related words to describe race 
     - Avoid assigning gender unless clear; if ambiguous, acknowledge it
+    - If there are more than one people, state the number of people
+
 
     CONTENT ACCURACY:
     - Base descriptions solely on the digital image provided
@@ -54,7 +56,7 @@ class Config:
     - Do not name known individuals unless essential for orientation
 
     STYLE AND LENGTH:
-    - Aim for concise descriptions (100–300 words typical; longer if required)
+    - Aim for concise descriptions (100–300 words typical; not longer)
     - Avoid phrases like "image of" or "picture of"
     - Be specific and consistent in describing color, using familiar color terms
     - Use evocative terms for color temperature (warm, cool) when appropriate
