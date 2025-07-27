@@ -122,7 +122,11 @@ class ArtDescriptor:
             List of description results
         """
         input_dir = input_dir or Config.ASSETS_DIR
-        output_file = output_file or os.path.join(Config.DESCRIPTIONS_DIR, 'bulk_descriptions.json')
+        
+        # Auto-generate output filename based on input directory name
+        if output_file is None:
+            input_dir_name = os.path.basename(input_dir)
+            output_file = os.path.join(Config.DESCRIPTIONS_DIR, f'{input_dir_name}.json')
         
         # Get all image files
         image_files = []
@@ -332,7 +336,11 @@ class ArtDescriptor:
             List of description results
         """
         input_dir = input_dir or Config.ASSETS_DIR
-        output_file = output_file or os.path.join(Config.DESCRIPTIONS_DIR, 'bulk_descriptions_with_examples.json')
+        
+        # Auto-generate output filename based on input directory name
+        if output_file is None:
+            input_dir_name = os.path.basename(input_dir)
+            output_file = os.path.join(Config.DESCRIPTIONS_DIR, f'{input_dir_name}_with_examples.json')
         
         # Get all image files
         image_files = []
