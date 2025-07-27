@@ -25,6 +25,9 @@ def main():
     ai_desc = load_ai_descriptions(AI_DESCRIPTIONS_PATH)
 
     # Initialize model
+
+    #The all-MiniLM-L6-v2 model is a sentence transformer model from the Sentence Transformers library. 
+    #Based on MiniLM (a distilled version of BERT)
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
     results = []
