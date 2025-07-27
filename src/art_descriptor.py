@@ -141,21 +141,19 @@ class ArtDescriptor:
         for image_path in tqdm(image_files, desc="Generating descriptions"):
             result = self.generate_description(str(image_path), custom_prompt)
             results.append(result)
-            
-            # Save individual result
-            individual_output = os.path.join(
-                Config.DESCRIPTIONS_DIR, 
-                f"{Path(image_path).stem}_description.json"
-            )
-            with open(individual_output, 'w', encoding='utf-8') as f:
-                json.dump(result, f, indent=2, ensure_ascii=False)
         
-        # Save bulk results
+        # Create simplified output with only filename and description
+        simplified_results = []
+        for result in results:
+            if result.get('status') == 'success':
+                simplified_results.append({
+                    'filename': result['filename'],
+                    'description': result['description']
+                })
+        
+        # Save simplified results
         with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(results, f, indent=2, ensure_ascii=False)
-        
-        # Generate summary
-        self._generate_summary(results, output_file)
+            json.dump(simplified_results, f, indent=2, ensure_ascii=False)
         
         print(f"Processing complete! Results saved to {output_file}")
         return results
@@ -360,21 +358,19 @@ class ArtDescriptor:
                 custom_prompt
             )
             results.append(result)
-            
-            # Save individual result
-            individual_output = os.path.join(
-                Config.DESCRIPTIONS_DIR, 
-                f"{Path(image_path).stem}_description_with_examples.json"
-            )
-            with open(individual_output, 'w', encoding='utf-8') as f:
-                json.dump(result, f, indent=2, ensure_ascii=False)
         
-        # Save bulk results
+        # Create simplified output with only filename and description
+        simplified_results = []
+        for result in results:
+            if result.get('status') == 'success':
+                simplified_results.append({
+                    'filename': result['filename'],
+                    'description': result['description']
+                })
+        
+        # Save simplified results
         with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(results, f, indent=2, ensure_ascii=False)
-        
-        # Generate summary
-        self._generate_summary(results, output_file)
+            json.dump(simplified_results, f, indent=2, ensure_ascii=False)
         
         print(f"Processing complete! Results saved to {output_file}")
         return results 
