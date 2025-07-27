@@ -126,7 +126,7 @@ class ArtDescriptor:
         # Auto-generate output filename based on input directory name
         if output_file is None:
             input_dir_name = os.path.basename(input_dir)
-            output_file = os.path.join(Config.DESCRIPTIONS_DIR, f'{input_dir_name}.json')
+            output_file = os.path.join('ai_descriptions', f'{input_dir_name}.json')
         
         # Get all image files
         image_files = []
@@ -340,7 +340,7 @@ class ArtDescriptor:
         # Auto-generate output filename based on input directory name
         if output_file is None:
             input_dir_name = os.path.basename(input_dir)
-            output_file = os.path.join(Config.DESCRIPTIONS_DIR, f'{input_dir_name}_with_examples.json')
+            output_file = os.path.join('ai_descriptions', f'{input_dir_name}_with_examples.json')
         
         # Get all image files
         image_files = []
