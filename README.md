@@ -6,9 +6,9 @@ An AI-powered system for generating accessibility-focused visual descriptions of
 
 - **Accessibility-Focused**: Specialized prompts designed for people with visual impairments
 - **Bulk Processing**: Process multiple images efficiently with progress tracking
-- **Multiple Output Formats**: JSON, CSV, and individual file outputs
+- **Simplified Output**: Clean JSON format with just filename and description
 - **Custom Prompts**: Use your own prompts or the built-in accessibility-focused ones
-- **Comprehensive Metadata**: Track tokens used, model information, and processing status
+- **Evaluation Tools**: Built-in cosine similarity evaluation for comparing AI vs human descriptions
 - **Error Handling**: Robust error handling with detailed logging
 
 ## Quick Start
@@ -38,7 +38,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 ### 3. Add Images
 
-Place your artwork images in the `assets/` folder. Supported formats:
+Place your artwork images in the `assets/` folder or create subdirectories like `assets/human_edited/`. Supported formats:
 - JPG/JPEG
 - PNG
 - GIF
@@ -48,9 +48,9 @@ Place your artwork images in the `assets/` folder. Supported formats:
 
 ### 4. Generate Descriptions
 
-#### Process all images in bulk:
+#### Process all images in a directory:
 ```bash
-python main.py --bulk
+python main.py --bulk --input-dir assets/human_edited
 ```
 
 #### Process a single image:
@@ -58,14 +58,9 @@ python main.py --bulk
 python main.py --image assets/your_artwork.jpg
 ```
 
-#### Export results to CSV:
-```bash
-python main.py --bulk --export-csv
-```
-
 #### Use a custom prompt:
 ```bash
-python main.py --bulk --prompt "Describe this artwork focusing on its historical significance"
+python main.py --bulk --input-dir assets/human_edited --prompt "Describe this artwork focusing on its historical significance"
 ```
 
 ## Usage Examples
@@ -76,8 +71,8 @@ python main.py --bulk --prompt "Describe this artwork focusing on its historical
 # List all supported images
 python main.py --list-images
 
-# Process with custom input/output directories
-python main.py --bulk --input-dir my_artwork --output-file my_results.json
+# Process with custom input directory
+python main.py --bulk --input-dir assets/human_edited
 
 # Process single image with custom prompt
 python main.py --image artwork.jpg --prompt "Focus on the emotional impact of this piece"
@@ -95,35 +90,44 @@ descriptor = ArtDescriptor()
 result = descriptor.generate_description("assets/artwork.jpg")
 
 # Process multiple images
-results = descriptor.process_bulk_images()
-
-# Export to CSV
-descriptor.export_to_csv(results)
+results = descriptor.process_bulk_images(input_dir="assets/human_edited")
 ```
 
 ## Output Structure
 
-### Individual JSON Output
+### Simplified JSON Output
 ```json
-{
-  "filename": "artwork.jpg",
-  "image_info": {
-    "format": "JPEG",
-    "size": [1920, 1080],
-    "mode": "RGB"
+[
+  {
+    "filename": "example1.jpg",
+    "description": "This magnificent oil painting depicts..."
   },
-  "description": "This magnificent oil painting depicts...",
-  "model_used": "gpt-4-vision-preview",
-  "tokens_used": 450,
-  "status": "success"
-}
+  {
+    "filename": "example2.jpg",
+    "description": "This vertical print shows..."
+  }
+]
 ```
 
-### Bulk Processing Output
-- `descriptions/bulk_descriptions.json` - All results
-- `descriptions/bulk_descriptions_summary.json` - Processing summary
-- `descriptions/descriptions.csv` - CSV export (if requested)
-- Individual files for each image: `descriptions/{filename}_description.json`
+### Auto-generated Output Files
+- `ai_descriptions/{directory_name}.json` - AI-generated descriptions
+- `ai_descriptions/{directory_name}_with_examples.json` - Descriptions with examples
+
+## Evaluation
+
+### Cosine Similarity Evaluation
+
+Compare AI-generated descriptions with human-written descriptions:
+
+```bash
+# Install evaluation dependencies
+pip install -r evaluation/requirements.txt
+
+# Run evaluation
+cd evaluation && python evaluate_cosine_similarity.py
+```
+
+This will generate `similarity_result_human_written.json` with cosine similarity scores.
 
 ## Accessibility Features
 
@@ -142,7 +146,7 @@ The system uses specialized prompts designed for accessibility:
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `OPENAI_API_KEY` | Your OpenAI API key | Required |
-| `OPENAI_MODEL` | Model to use for analysis | `gpt-4-vision-preview` |
+| `OPENAI_MODEL` | Model to use for analysis | `gpt-4o` |
 | `OUTPUT_FORMAT` | Output format preference | `json` |
 | `OUTPUT_DIR` | Output directory | `descriptions` |
 
@@ -160,7 +164,18 @@ The system uses specialized prompts designed for accessibility:
 ```
 art-descriptions-ai/
 ├── assets/                 # Place your artwork images here
-├── descriptions/           # Generated descriptions and outputs
+│   ├── human_edited/      # Example: human_edited images
+│   └── human_written/     # Example: human_written images
+├── ai_descriptions/        # AI-generated descriptions
+│   ├── human_edited.json  # AI descriptions for human_edited
+│   └── human_written.json # AI descriptions for human_written
+├── real_descriptions/      # Human-written reference descriptions
+│   ├── human_edited.json  # Human descriptions for human_edited
+│   └── human_written.json # Human descriptions for human_written
+├── evaluation/             # Evaluation tools
+│   ├── evaluate_cosine_similarity.py
+│   └── requirements.txt
+├── similarity_results/     # Evaluation results
 ├── src/                   # Source code
 │   ├── __init__.py
 │   ├── config.py          # Configuration and settings
@@ -188,6 +203,7 @@ This system uses OpenAI's GPT-4 Vision API. Costs depend on:
 3. **Custom Prompts**: Tailor prompts to your specific collection or audience
 4. **Review Outputs**: Always review generated descriptions for accuracy
 5. **Backup Results**: Keep backups of your generated descriptions
+6. **Evaluation**: Use the built-in evaluation tools to assess AI performance
 
 ## Troubleshooting
 
