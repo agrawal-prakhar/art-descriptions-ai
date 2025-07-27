@@ -4,9 +4,9 @@ from sentence_transformers import SentenceTransformer, util
 import pandas as pd
 
 # Paths
-REAL_DESCRIPTIONS_PATH = os.path.join(os.path.dirname(__file__), 'real_descriptions.json')
-AI_DESCRIPTIONS_PATH = os.path.join(os.path.dirname(__file__), '../descriptions/bulk_descriptions.json')
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), 'cosine_similarity_report.csv')
+REAL_DESCRIPTIONS_PATH = os.path.join(os.path.dirname(__file__), '../real_descriptions/human_written.json')
+AI_DESCRIPTIONS_PATH = os.path.join(os.path.dirname(__file__), '../ai_descriptions/human_written.json')
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), 'similarity_result_human_written.json')
 
 # Load real/ideal descriptions
 def load_real_descriptions(path):
@@ -25,9 +25,8 @@ def main():
     ai_desc = load_ai_descriptions(AI_DESCRIPTIONS_PATH)
 
     # Initialize model
-
-    #The all-MiniLM-L6-v2 model is a sentence transformer model from the Sentence Transformers library. 
-    #Based on MiniLM (a distilled version of BERT)
+    # The all-MiniLM-L6-v2 model is a sentence transformer model from the Sentence Transformers library. 
+    # Based on MiniLM (a distilled version of BERT)
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
     results = []
@@ -46,9 +45,9 @@ def main():
             'cosine_similarity': similarity
         })
 
-    # Save results
-    df = pd.DataFrame(results)
-    df.to_csv(OUTPUT_PATH, index=False)
+    # Save results as JSON
+    with open(OUTPUT_PATH, 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=2, ensure_ascii=False)
     print(f"Cosine similarity report saved to {OUTPUT_PATH}")
 
 if __name__ == '__main__':
