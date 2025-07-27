@@ -49,10 +49,7 @@ venv.bak/
 ehthumbs.db
 Thumbs.db
 
-# Generated outputs
-descriptions/
-*.json
-*.csv
+
 !env.example
 
 # Logs

@@ -1,0 +1,42 @@
+[
+  {
+    "filename": "example1.jpg",
+    "cosine_similarity": 0.7369177341461182
+  },
+  {
+    "filename": "example2.jpg",
+    "cosine_similarity": 0.6783444285392761
+  },
+  {
+    "filename": "example3.jpg",
+    "cosine_similarity": 0.831399142742157
+  },
+  {
+    "filename": "example4.jpg",
+    "cosine_similarity": 0.783724308013916
+  },
+  {
+    "filename": "example5.jpg",
+    "cosine_similarity": 0.8005645871162415
+  },
+  {
+    "filename": "example6.jpg",
+    "cosine_similarity": 0.8031411170959473
+  },
+  {
+    "filename": "example7.jpg",
+    "cosine_similarity": 0.6891899108886719
+  },
+  {
+    "filename": "example8.jpg",
+    "cosine_similarity": 0.7980453372001648
+  },
+  {
+    "filename": "example9.jpg",
+    "cosine_similarity": 0.7199766635894775
+  },
+  {
+    "filename": "example10.jpg",
+    "cosine_similarity": 0.5401861667633057
+  }
+]
