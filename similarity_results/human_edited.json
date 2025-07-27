@@ -1,0 +1,34 @@
+[
+  {
+    "filename": "example1.jpg",
+    "cosine_similarity": 0.8213004469871521
+  },
+  {
+    "filename": "example2.jpg",
+    "cosine_similarity": 0.7638264894485474
+  },
+  {
+    "filename": "example3.jpg",
+    "cosine_similarity": 0.7593303918838501
+  },
+  {
+    "filename": "example5.jpg",
+    "cosine_similarity": 0.7585171461105347
+  },
+  {
+    "filename": "example6.jpg",
+    "cosine_similarity": 0.9113606810569763
+  },
+  {
+    "filename": "example7.jpg",
+    "cosine_similarity": 0.8817082643508911
+  },
+  {
+    "filename": "example8.jpg",
+    "cosine_similarity": 0.8883076906204224
+  },
+  {
+    "filename": "example9.jpg",
+    "cosine_similarity": 0.8453503847122192
+  }
+]
