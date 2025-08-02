@@ -293,19 +293,13 @@ class ArtDescriptor:
             
             return {
                 'filename': image_info['filename'],
-                'image_info': image_info,
-                'description': description,
-                'model_used': self.model,
-                'tokens_used': response.usage.total_tokens if response.usage else None,
-                'status': 'success',
-                'examples_used': len(example_images) if example_images else 0
+                'description': description
             }
             
         except Exception as e:
             return {
                 'filename': os.path.basename(image_path),
-                'error': str(e),
-                'status': 'error'
+                'description': f"Error: {str(e)}"
             }
 
     def process_bulk_images_with_examples(self, 
@@ -359,18 +353,9 @@ class ArtDescriptor:
             )
             results.append(result)
         
-        # Create simplified output with only filename and description
-        simplified_results = []
-        for result in results:
-            if result.get('status') == 'success':
-                simplified_results.append({
-                    'filename': result['filename'],
-                    'description': result['description']
-                })
-        
-        # Save simplified results
+        # Save results (already in simplified format)
         with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(simplified_results, f, indent=2, ensure_ascii=False)
+            json.dump(results, f, indent=2, ensure_ascii=False)
         
         print(f"Processing complete! Results saved to {output_file}")
         return results 
