@@ -244,45 +244,37 @@ class ArtDescriptor:
             # Build messages with examples
             messages = []
             
-            # Add system message with examples if provided
-            if example_images and example_descriptions:
-                system_content = "You are an expert visual describer. Here are examples of the type of description I want:\n\n"
-                
-                for i, (example_img, example_desc) in enumerate(zip(example_images, example_descriptions)):
-                    example_base64 = self.encode_image(example_img)
-                    system_content += f"EXAMPLE {i+1}:\n"
-                    system_content += f"Image: {os.path.basename(example_img)}\n"
-                    system_content += f"Description: {example_desc}\n\n"
-                
-                messages.append({
-                    "role": "system",
-                    "content": system_content
-                })
-            
             # Use custom prompt or default
             prompt = custom_prompt if custom_prompt else Config.ACCESSIBILITY_PROMPT
             
-            # Add user message with target image
-            user_content = [
-                {"type": "text", "text": prompt},
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/jpeg;base64,{base64_image}"
-                    }
-                }
-            ]
+            # Build user message content
+            user_content = [{"type": "text", "text": prompt}]
             
-            # If we have examples, add them to the user message as well
+            # Add example images with their descriptions if provided
             if example_images and example_descriptions:
-                for example_img in example_images:
+                example_text = "\nHere are some examples of the type of description I want:\n\n"
+                for i, (example_img, example_desc) in enumerate(zip(example_images, example_descriptions)):
                     example_base64 = self.encode_image(example_img)
+                    example_text += f"EXAMPLE {i+1}:\n"
+                    example_text += f"Image: {os.path.basename(example_img)}\n"
+                    example_text += f"Description: {example_desc}\n\n"
                     user_content.append({
                         "type": "image_url",
                         "image_url": {
                             "url": f"data:image/jpeg;base64,{example_base64}"
                         }
                     })
+                
+                # Update the text content to include examples
+                user_content[0]["text"] += example_text
+            
+            # Add target image
+            user_content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{base64_image}"
+                }
+            })
             
             messages.append({
                 "role": "user",
