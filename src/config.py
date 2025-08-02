@@ -82,7 +82,7 @@ class Config:
 
     Your description should help someone understand exactly what is visible in the image without any added interpretation or historical context.
 
-    Remove any last-line text like "The overall style is ..." or anything else that is an interpration. 
+    REMOVE/OMIT any last-line text like "The overall ..." or anything else that is an interpration. 
 
     Here are examples of the type of description you should provide:
 
