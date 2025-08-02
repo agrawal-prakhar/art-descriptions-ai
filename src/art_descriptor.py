@@ -92,18 +92,13 @@ class ArtDescriptor:
             
             return {
                 'filename': image_info['filename'],
-                'image_info': image_info,
-                'description': description,
-                'model_used': self.model,
-                'tokens_used': response.usage.total_tokens if response.usage else None,
-                'status': 'success'
+                'description': description
             }
             
         except Exception as e:
             return {
                 'filename': os.path.basename(image_path),
-                'error': str(e),
-                'status': 'error'
+                'description': f"Error: {str(e)}"
             }
     
     def process_bulk_images(self, 
@@ -146,26 +141,17 @@ class ArtDescriptor:
             result = self.generate_description(str(image_path), custom_prompt)
             results.append(result)
         
-        # Create simplified output with only filename and description
-        simplified_results = []
-        for result in results:
-            if result.get('status') == 'success':
-                simplified_results.append({
-                    'filename': result['filename'],
-                    'description': result['description']
-                })
-        
-        # Save simplified results
+        # Save results (already in simplified format)
         with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(simplified_results, f, indent=2, ensure_ascii=False)
+            json.dump(results, f, indent=2, ensure_ascii=False)
         
         print(f"Processing complete! Results saved to {output_file}")
         return results
     
     def _generate_summary(self, results: List[Dict], output_file: str):
         """Generate a summary of the bulk processing results."""
-        successful = [r for r in results if r.get('status') == 'success']
-        failed = [r for r in results if r.get('status') == 'error']
+        successful = [r for r in results if not r.get('description', '').startswith('Error:')]
+        failed = [r for r in results if r.get('description', '').startswith('Error:')]
         
         summary = {
             'total_images': len(results),
@@ -191,14 +177,10 @@ class ArtDescriptor:
         # Prepare data for CSV
         csv_data = []
         for result in results:
-            if result.get('status') == 'success':
+            if not result.get('description', '').startswith('Error:'):
                 csv_data.append({
                     'filename': result['filename'],
-                    'description': result['description'],
-                    'model_used': result.get('model_used', ''),
-                    'tokens_used': result.get('tokens_used', ''),
-                    'image_format': result.get('image_info', {}).get('format', ''),
-                    'image_size': str(result.get('image_info', {}).get('size', ''))
+                    'description': result['description']
                 })
         
         if csv_data:
