@@ -5,8 +5,8 @@ import pandas as pd
 
 # Paths
 REAL_DESCRIPTIONS_PATH = os.path.join(os.path.dirname(__file__), '../real_descriptions/unpublished.json')
-AI_DESCRIPTIONS_PATH = os.path.join(os.path.dirname(__file__), '../ai_descriptions/unpublished_draft2.json')
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), '../similarity_results/unpublished_draft2.json')
+AI_DESCRIPTIONS_PATH = os.path.join(os.path.dirname(__file__), '../ai_descriptions/unpublished_with_human_examples.json')
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), '../similarity_results/unpublished_with_human_examples.json')
 
 # Load real/ideal descriptions
 def load_real_descriptions(path):
